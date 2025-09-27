@@ -14,6 +14,7 @@ export default function ActiveDepositsList() {
 
   const [activeDeposits, setActiveDeposits] = useState([]);
   const [historyDeposits, setHistoryDeposits] = useState([]);
+  const [sendingHistory, setSendingHistory] = useState([]);
   const [message, setMessage] = useState("");
   const [claimCodes, setClaimCodes] = useState({}); 
 
@@ -81,14 +82,18 @@ export default function ActiveDepositsList() {
     async function fetchDeposits() {
       if (!address) return;
       try {
-        const resActive = await fetch(`http://localhost:4000/deposits/${address}?status=active`);
+        const resActive = await fetch(`http://localhost:4000/deposits/recipient/${address}?status=active`);
         const active = await resActive.json();
         setActiveDeposits(active);
 
-        const resHistory = await fetch(`http://localhost:4000/deposits/${address}?status=all`);
+        const resHistory = await fetch(`http://localhost:4000/deposits/recipient/${address}?status=all`);
         const all = await resHistory.json();
         const history = all.filter((d) => d.status !== "active");
         setHistoryDeposits(history);
+        const sendHistory = await fetch(`http://localhost:4000/deposits/sender/${address}?status=all`);
+        const sending = await sendHistory.json();
+        setSendingHistory(sending);
+        console.log("Fetched deposits:", { active, history, sending });
       } catch (err) {
         console.error("Failed to fetch deposits:", err);
       }
@@ -164,3 +169,4 @@ export default function ActiveDepositsList() {
     </div>
   );
 }
+

@@ -5,13 +5,13 @@ import {
   RainbowKitProvider,
   ConnectButton,
 } from '@rainbow-me/rainbowkit';
-import { arbitrum } from 'wagmi/chains';
 import { WagmiProvider } from 'wagmi';
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { BrowserRouter , Routes ,Route } from 'react-router-dom';
 import NavBar from './components/Navbar';
 import DepositForm from './pages/Deposite';
 import ActiveDepositsList from './pages/Details';
+import CrossChain from './pages/CrossSwap'
 
 const kadenaTestnet20 = {
   id: 5920,
@@ -61,7 +61,7 @@ const kadenaTestnet21 = {
 const config = getDefaultConfig({
   appName: 'My RainbowKit App',
   projectId: 'fa868975a64170a887ead01f017e04c8', 
-  chains: [arbitrum, kadenaTestnet21, kadenaTestnet20],
+  chains: [kadenaTestnet21, kadenaTestnet20],
   ssr: true,
 });
 
@@ -77,6 +77,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<ActiveDepositsList />} />
             <Route path="/deposit" element={<DepositForm />} />
+            <Route path="/crosschain" element={<CrossChain />} />
           </Routes>
         </RainbowKitProvider>
       </QueryClientProvider>
