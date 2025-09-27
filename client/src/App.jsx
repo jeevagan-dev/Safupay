@@ -12,6 +12,7 @@ import NavBar from './components/Navbar';
 import DepositForm from './pages/Deposite';
 import ActiveDepositsList from './pages/Details';
 import CrossChain from './pages/CrossSwap'
+import EscrowPage from './pages/EscrowPage';
 
 const kadenaTestnet20 = {
   id: 5920,
@@ -75,8 +76,8 @@ const App = () => {
         <RainbowKitProvider  showRecentTransactions={true} >
           <NavBar />
           <Routes>
-            <Route path="/" element={<ActiveDepositsList />} />
-            <Route path="/deposit" element={<DepositForm />} />
+            <Route path="/" element={<EscrowPage />} />
+           
             <Route path="/crosschain" element={<CrossChain />} />
           </Routes>
         </RainbowKitProvider>

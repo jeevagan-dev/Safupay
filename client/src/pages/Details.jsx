@@ -5,7 +5,7 @@ import { useAccount } from "wagmi";
 import { useWriteContract } from "wagmi";
 import abi from "../contract/abi.json";
 
-const ESCROW_ADDRESS = "0x606FB9b84aBe220cD4a69b8eeCE10fdDD62fB539";
+const ESCROW_ADDRESS = "0x162Faf143d4fa705D7AE66d55eb62A0D8Fb8Ffd7";
 const ESCROW_ABI = abi;
 
 export default function ActiveDepositsList() {
@@ -115,7 +115,9 @@ export default function ActiveDepositsList() {
           {message}
         </div>
       )}
-
+          {activeDeposits.length !== 0 && (
+  <h1>hello</h1>
+)}
       <ul className="space-y-3">
         {activeDeposits.map((dep) => (
           <li key={dep.id} className="p-3 border rounded bg-white">

@@ -139,7 +139,7 @@ export default function CrossChainSwap() {
   };
 
   return (
-    <div className="max-w-lg mx-auto bg-white p-6 rounded-2xl shadow-lg space-y-5">
+    <div className="max-w-lg mx-auto mt-5  bg-white p-10 rounded-2xl shadow-lg space-y-5">
       <h2 className="text-2xl font-bold text-gray-800"> Cross-Chain Swap</h2>
 
    
@@ -158,7 +158,7 @@ export default function CrossChainSwap() {
             </option>
           ))}
         </select>
-        <span className="text-gray-500">➡️</span>
+        <span className="text-gray-500"> {"==>"} </span>
         <select
           value={target}
           onChange={(e) => setTarget(e.target.value)}
