@@ -113,7 +113,7 @@ export default function DepositForm({ onSuccess }) {
         />
         <input
           className="w-full border p-2 rounded"
-          placeholder="Amount (ETH)"
+          placeholder="Amount (KDA)"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           required

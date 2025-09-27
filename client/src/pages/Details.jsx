@@ -78,29 +78,47 @@ export default function ActiveDepositsList() {
   }
 
 
-  useEffect(() => {
-    async function fetchDeposits() {
-      if (!address) return;
-      try {
-        const resActive = await fetch(`http://localhost:4000/deposits/recipient/${address}?status=active`);
-        const active = await resActive.json();
-        setActiveDeposits(active);
+useEffect(() => {
+  async function fetchDeposits() {
+    if (!address) return;
 
-        const resHistory = await fetch(`http://localhost:4000/deposits/recipient/${address}?status=all`);
-        const all = await resHistory.json();
-        const history = all.filter((d) => d.status !== "active");
-        setHistoryDeposits(history);
-        const sendHistory = await fetch(`http://localhost:4000/deposits/sender/${address}?status=all`);
-        const sending = await sendHistory.json();
-        setSendingHistory(sending);
-        console.log("Fetched deposits:", { active, history, sending });
-      } catch (err) {
-        console.error("Failed to fetch deposits:", err);
-      }
+    try {
+      const [resRecipient, resSender] = await Promise.all([
+        fetch(`http://localhost:4000/deposits/recipient/${address}?status=active`),
+        fetch(`http://localhost:4000/deposits/sender/${address}?status=active`)
+      ]);
+
+      const recipientDeposits = await resRecipient.json();
+      const senderDeposits = await resSender.json();
+
+      // Merge and remove duplicates
+      const merged = [
+        ...recipientDeposits,
+        ...senderDeposits.filter(
+          s => !recipientDeposits.some(r => r.id === s.id && r.chainId === s.chainId)
+        ),
+      ];
+
+      setActiveDeposits(merged);
+
+      // Fetch history
+      const resHistory = await fetch(`http://localhost:4000/deposits/recipient/${address}?status=all`);
+      const all = await resHistory.json();
+      const history = all.filter((d) => d.status !== "active");
+      setHistoryDeposits(history);
+
+      const sendHistory = await fetch(`http://localhost:4000/deposits/sender/${address}?status=all`);
+      const sending = await sendHistory.json();
+      setSendingHistory(sending);
+
+      console.log("Fetched deposits:", { merged, history, sending });
+    } catch (err) {
+      console.error("Failed to fetch deposits:", err);
     }
+  }
 
-    fetchDeposits();
-  }, [address]);
+  fetchDeposits();
+}, [address]);
 
   if (!activeDeposits || activeDeposits.length === 0) {
     return null;
@@ -115,9 +133,7 @@ export default function ActiveDepositsList() {
           {message}
         </div>
       )}
-          {activeDeposits.length !== 0 && (
-  <h1>hello</h1>
-)}
+          
       <ul className="space-y-3">
         {activeDeposits.map((dep) => (
           <li key={dep.id} className="p-3 border rounded bg-white">
@@ -171,4 +187,3 @@ export default function ActiveDepositsList() {
     </div>
   );
 }
-
