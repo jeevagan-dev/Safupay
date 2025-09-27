@@ -7,7 +7,7 @@ import {
 import { ethers, keccak256, solidityPacked } from "ethers";
 import abi from "../contract/abi.json";
 
-const ESCROW_ADDRESS = "0x606FB9b84aBe220cD4a69b8eeCE10fdDD62fB539";
+const ESCROW_ADDRESS = "0x162Faf143d4fa705D7AE66d55eb62A0D8Fb8Ffd7";
 const ESCROW_ABI = abi;
 
 export default function DepositForm({ onSuccess }) {
